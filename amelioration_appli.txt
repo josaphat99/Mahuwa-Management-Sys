@@ -1,0 +1,8 @@
+to do today
+===========
+
+- Coder le btn voir mouvement
+
+- Finir les features du dg
+
+- L'interface du financier
