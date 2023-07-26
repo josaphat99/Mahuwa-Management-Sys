@@ -242,11 +242,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="eq_img_space">
-                add content here..
+            <div class="modal-body" id="eq_img_space">               
             </div>
-            <div class="modal-footer bg-whitesmoke br">
-            <button type="button" class="btn btn-primary">Voir mouvements</button>
+            
+            <div class="modal-footer bg-whitesmoke br" id="voir_mv_area">
+                <!-- <a type="button" class="btn btn-primary">Voir mouvements</a> -->
             </div>
         </div>
         </div>
@@ -262,12 +262,15 @@
 
             var id = e.target.getAttribute('id').split('-')[1];
             var designation = e.target.getAttribute('designation');
+            var voir_mv = '<?=site_url("eq_mouvement/view_eq_mouvement")?>';
+            voir_mv = voir_mv+'?eq_id='+id;
 
             $("#exampleModalCenterTitle").html(designation)
 
             $.post('<?=site_url("ajax/view_eq")?>',{eq_id:id},function(data)
             {
                 $("#eq_img_space").html(data);
+                $("#voir_mv_area").html('<a href="'+voir_mv+'" type="button" class="btn btn-primary">Voir mouvements</a>');
                 console.log(data);
             })
         })

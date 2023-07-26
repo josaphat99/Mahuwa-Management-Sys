@@ -41,14 +41,20 @@
     <section class="section">
         <div class="section-body">
             <div class="row">
-                <div class="col-md-4">
-                    <h3>Mouvements de stock des equipements</h3>
+                <div class="col-md-6">
+                    <h6>Mouvements de stock [<?=$equipment->designation?>]
+                    &nbsp;&nbsp;
+                     <a href="#" class="btn btn-success btn-action mr-1 view_btn"  title="View" id=<?="view_btn-".$equipment->id?> 
+                        data-toggle="modal" data-target="#exampleModalCenter" designation="<?=$equipment->designation?>">
+                            <i class="fas fa-eye view_btn" id=<?="view_icon-".$equipment->id?> designation="<?=$equipment->designation?>"></i>
+                        </a>
+                    </h6>
                 </div>
                 <?php
                     if($this->session->type == 'encoder')
                     {
                 ?>
-                        <div class="col-md-3 offset-md-5" data-toggle="modal" data-target="#newEqForm">
+                        <div class="col-md-3 offset-md-3" data-toggle="modal" data-target="#newEqForm">
                             <button class="btn btn-success">
                                 <i class="fas fa-plus"></i>&nbsp;&nbsp;Nouveau mouvement
                             </button>
@@ -59,27 +65,27 @@
                 
             </div>
             <br>
-            <!-- approvisionnement table -->
+            
             <div class="row">
-              <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+              <!-- approvisionnement table -->
+              <div class="col-lg-5 col-md-5 offset-md-1 col-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Approvisionnements</h4>
                         <div class="card-header-action">
-                            <a data-collapse="#capex-collapse" class="btn btn-icon btn-info" href="#"><i
+                            <a data-collapse="#entre-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>
                         </div>
                     </div>
-                    <div class="collapse show" id="capex-collapse">
+                    <div class="collapse show" id="entre-collapse">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <tr>
                                     <th>Date</th>
-                                    <th>Designation</th>
                                     <th>Quantité</th>
                                     <!-- <th>Categorie</th> -->
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                                     </tr>
                                     <tbody>                 
                                         
@@ -89,14 +95,7 @@
                                         ?>  
                                         <tr>
                                             <td><?=$me->date?></td>
-                                            <td><?=$me->designation?></td>
                                             <td><?=$me->quantity?></td>
-                                            <td>
-                                                <a href="#" class="btn btn-success btn-action mr-1 view_btn"  title="View" id=<?="view_btn-".$me->id_equipment?> 
-                                                data-toggle="modal" data-target="#exampleModalCenter" designation="<?=$me->designation?>">
-                                                    <i class="fas fa-eye view_btn" id=<?="view_icon-".$me->id_equipment?> designation="<?=$me->designation?>"></i>
-                                                </a>
-                                            </td>
                                         </tr>
                                         <?php
                                         }
@@ -107,30 +106,27 @@
                         </div>
                     </div>
                 </div>
-              </div>
-            </div>
+              </div>            
 
-             <!-- sortie table -->
-            <div class="row">
-              <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+              <!-- sortie table -->            
+              <div class="col-lg-5 col-md-5 col-12 col-sm-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Sorties</h4>
                         <div class="card-header-action">
-                            <a data-collapse="#capex-collapse" class="btn btn-icon btn-info" href="#"><i
+                            <a data-collapse="#sortie-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>
                         </div>
                     </div>
-                    <div class="collapse show" id="capex-collapse">
+                    <div class="collapse show" id="sortie-collapse">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <tr>
                                     <th>Date</th>
-                                    <th>Designation</th>
                                     <th>Quantité</th>
                                     <!-- <th>Categorie</th> -->
-                                    <th>Action</th>
+                                    <!-- <th>Action</th> -->
                                     </tr>
                                     <tbody>                 
                                         
@@ -140,14 +136,7 @@
                                         ?>  
                                         <tr>
                                             <td><?=$ms->date?></td>
-                                            <td><?=$ms->designation?></td>
                                             <td><?=$ms->quantity?></td>
-                                            <td>
-                                                <a href="#" class="btn btn-success btn-action mr-1 view_btn"  title="View" id=<?="view_btn-".$ms->id_equipment?> 
-                                                data-toggle="modal" data-target="#exampleModalCenter" designation="<?=$ms->designation?>">
-                                                    <i class="fas fa-eye view_btn" id=<?="view_icon-".$ms->id_equipment?> designation="<?=$ms->designation?>"></i>
-                                                </a>
-                                            </td>
                                         </tr>
                                         <?php
                                         }
@@ -162,7 +151,7 @@
             </div>
         </div>
     </section>
-
+    
     <!-- Modal form for a new equipment-->
     <div class="modal fade" id="newEqForm" tabindex="-1" role="dialog" aria-labelledby="formModal"
         aria-hidden="true">
@@ -177,20 +166,8 @@
             <div class="modal-body">
                 <form action="<?=site_url('eq_mouvement/new_eq_mouvement')?>" method="post">
                     
-                    
-                    <div class="form-group">
-                      <label>Equipement</label>
-                      <select  class="form-control selectric" name="equipment_id" required>
-                        <?php
-                            foreach($equipment as $eq)
-                            {
-                        ?>
-                                <option value=<?=$eq->id?>><?=$eq->designation?></option>
-                        <?php
-                            }
-                        ?>                        
-                      </select>
-                    </div>
+                    <input  value=<?=$equipment->id?> name="equipment_id" hidden/>
+                    <input type="hidden" name="view_eq_mv" value='view_eq_mv'>
 
                     <div class="form-group">
                         <label class="col-form-label">Type d'operation</label>
@@ -206,13 +183,6 @@
                             <input type="number" class="form-control" placeholder="Quantité" name="quantity" required>
                         </div>
                     </div>
-
-                    <!-- <div class="form-group">
-                        <label>Date</label>
-                        <div class="input-group">
-                            <input type="date" class="form-control" name="date" required>
-                        </div>
-                    </div> -->
                     
                     <!-- <input type="hidden" name="type" value="all_eq"> -->
                     <button type="submit" class="btn btn-success m-t-15 waves-effect">Enregistrer</button>
@@ -221,7 +191,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- view equipment modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
           aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -234,11 +204,11 @@
                 </button>
             </div>
             <div class="modal-body" id="eq_img_space">
-                add content here..
+               
             </div>
-            <div class="modal-footer bg-whitesmoke br" id="voir_mv_area">
-                <!-- <a type="button" class="btn btn-primary">Voir mouvements</a> -->
-            </div>
+            <!-- <div class="modal-footer bg-whitesmoke br">
+            <button type="button" class="btn btn-primary">Voir mouvements</button>
+            </div> -->
         </div>
         </div>
     </div>
@@ -265,16 +235,13 @@
 
             var id = e.target.getAttribute('id').split('-')[1];
             var designation = e.target.getAttribute('designation');
-            var voir_mv = '<?=site_url("eq_mouvement/view_eq_mouvement")?>';
-            voir_mv = voir_mv+'?eq_id='+id;
 
             $("#exampleModalCenterTitle").html(designation)
 
             $.post('<?=site_url("ajax/view_eq")?>',{eq_id:id},function(data)
             {
                 $("#eq_img_space").html(data);
-                $("#voir_mv_area").html('<a href="'+voir_mv+'" type="button" class="btn btn-primary">Voir mouvements</a>');
-                console.log(data);
+                console.log(data); 
             })
         })
     })

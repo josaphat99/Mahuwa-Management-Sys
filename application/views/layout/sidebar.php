@@ -53,7 +53,7 @@
                 {
             ?>
                     <li class="dropdown">
-                        <a href="#" class="nav-link">
+                        <a href="<?=site_url('dg/index')?>" class="nav-link">
                         &nbsp;&nbsp;<i data-feather="monitor"></i><span>Dashboard</span>
                         </a>
                     </li>
@@ -70,7 +70,7 @@
 
                     <li class="dropdown active">
                         <a href="<?=site_url('pch_order/index')?>" class="nav-link">
-                        <i data-feather="command"></i><span>Bons de commandes</span>
+                            <i data-feather="command"></i><span>Bons de commandes</span>
                         </a>
                     </li>
             <?php

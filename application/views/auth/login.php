@@ -5,7 +5,7 @@
       <div class="container mt-5">
         <div class="row">
           <div class="col-md-6 offset-md-3">
-            <h2 class="text-center" style="color:rgba(0,0,0,0.7)"><span><img style="width:50px" src="<?=base_url('assets/img/logo/logo_pn.png')?>" alt=""></span>MAHUWA</h2>
+            <h2 class="text-center" style="color:rgba(0,0,0,0.7)"><span><img style="width:50px" src="<?=base_url('assets/img/logo/logo_pn.png')?>" alt=""></span>MAHUWA PRODUCTION</h2>
           </div>
         </div>
         <br><br>

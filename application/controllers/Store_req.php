@@ -17,22 +17,30 @@ class Store_req extends CI_Controller
         //==========================================================
         $this->load->view('layout/head');
         $this->load->view('layout/sidebar');
-        $this->load->view('layout/topbar');
+
+        $d['store_req_attente'] = $this->Crud->join_storereq_ep_dept(null,'0');
+        $d['pending_pch_order'] = $this->Crud->join_pch_st_eq(null,null,null,'0');
+
+        $this->load->view('layout/topbar',$d);
     } 
 
     public function index()
     {
         /**
          * Store requisition
+         * STATUS
+         * ------
+         * 0: en attente
+         * 1: traité
          */
 
         $store_req_attente = $this->Crud->join_storereq_ep_dept(null,'0');
-        $st_req_satisfied = $this->Crud->join_storereq_ep_dept(null,1);
+        //$st_req_satisfied = $this->Crud->join_storereq_ep_dept(null,1);
         $curency = $this->Crud->get_data('curency');
 
         $d = [
             'store_req_attente' => $store_req_attente,
-            'st_req_satisfied' => $st_req_satisfied,
+            // 'st_req_satisfied' => $st_req_satisfied,
             'curency' => $curency
         ];
 

@@ -217,6 +217,7 @@
             
             var designation = e.target.getAttribute('designation');
             var po_id = e.target.getAttribute('po_id');
+            var status = e.target.getAttribute('status');
 
             var detail = $("#detail-"+id);
 
@@ -229,14 +230,26 @@
 
             if(typeof po_action_btn.attr('id') !== 'undefined')
             {                
-                var char1 = "<?=site_url('pch_order/validate_order')?>";
-                var link_1 =  char1+'?po_id='+po_id;
+                if(status == 0)
+                {
+                    var char1 = "<?=site_url('pch_order/validate_order')?>";
+                    var link_1 =  char1+'?po_id='+po_id;
 
-                var char2 = "<?=site_url('pch_order/reject_order')?>";
-                var link_2 =  char2+'?po_id='+po_id;
+                    var char2 = "<?=site_url('pch_order/reject_order')?>";
+                    var link_2 =  char2+'?po_id='+po_id;
 
-                var html = '<a href="'+link_1+'" class="btn btn-info">Valider la commande</a><a href="'+link_2+'" class="btn btn-danger">Rejeter la commande</a>';
-                po_action_btn.html(html);
+                    var html = '<a href="'+link_1+'" class="btn btn-info">Valider la commande</a><a href="'+link_2+'" class="btn btn-danger">Rejeter la commande</a>';
+                    po_action_btn.html(html);
+                }else{
+                    if(status == 1)
+                    {
+                        status_text = 'Cette commande a été validée';
+                        po_action_btn.html('<p class="alert alert-info">'+status_text+'</p>');
+                    }else{
+                        status_text = 'Cette commande a été rejetée';
+                        po_action_btn.html('<p class="alert alert-danger">'+status_text+'</p>');
+                    }                    
+                }      
             }else{
                 console.log('pas de stuff');
             }

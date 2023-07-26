@@ -17,7 +17,11 @@ class Pch_order extends CI_Controller
         //==========================================================
         $this->load->view('layout/head');
         $this->load->view('layout/sidebar');
-        $this->load->view('layout/topbar');
+
+        $d['store_req_attente'] = $this->Crud->join_storereq_ep_dept(null,'0');
+        $d['pending_pch_order'] = $this->Crud->join_pch_st_eq(null,null,null,'0');
+
+        $this->load->view('layout/topbar',$d);
     } 
 
     public function index()
@@ -25,7 +29,7 @@ class Pch_order extends CI_Controller
         /**
          * Purchase Order
          * 
-         * order statuses
+         * pch order statuses
          * 
          * 0: pending
          * 1: validated
@@ -45,6 +49,7 @@ class Pch_order extends CI_Controller
         $this->load->view('layout/js');
     }
 
+    //new purchase order
     public function new_order()
     {
         $estimated_price = $this->input->post('estimated_price');
@@ -69,7 +74,11 @@ class Pch_order extends CI_Controller
             'store_requisition_id' => $st_id
         ];
 
+        //adding a new pch order
         $this->Crud->add_data('purchase_order',$d); 
+
+        //store requisition traité
+        $this->Crud->update_data('store_requisition',['id'=>$st_id],['status'=>1]);
 
         $this->session->set_flashdata(['pch_order_added'=>true]);
 
@@ -99,6 +108,5 @@ class Pch_order extends CI_Controller
      }
 
     public function view_order()
-    {        
-    }
+    {}
 }

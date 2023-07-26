@@ -17,7 +17,11 @@ class Encoder extends CI_Controller
         //==========================================================
         $this->load->view('layout/head');
         $this->load->view('layout/sidebar');
-        $this->load->view('layout/topbar');
+
+        $d['store_req_attente'] = $this->Crud->join_storereq_ep_dept(null,'0');
+        $d['pending_pch_order'] = $this->Crud->join_pch_st_eq(null,null,null,'0');
+
+        $this->load->view('layout/topbar',$d);
     }
 
     public function index()

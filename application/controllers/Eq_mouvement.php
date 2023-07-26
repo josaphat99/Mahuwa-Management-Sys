@@ -17,7 +17,11 @@ class Eq_mouvement extends CI_Controller
         //==========================================================
         $this->load->view('layout/head');
         $this->load->view('layout/sidebar');
-        $this->load->view('layout/topbar');
+        
+        $d['store_req_attente'] = $this->Crud->join_storereq_ep_dept(null,'0');
+        $d['pending_pch_order'] = $this->Crud->join_pch_st_eq(null,null,null,'0');
+
+        $this->load->view('layout/topbar',$d);
     }
 
     public function index()
@@ -53,7 +57,7 @@ class Eq_mouvement extends CI_Controller
         $add_mouvement = false;
 
         $d = [
-            'date' => $this->input->post('date'),
+            'date' => date("d-m-Y",time()),
             'equipment_id' =>  $equipment_id,
             'type' => $type_operation,
             'quantity' => $quantity,            
@@ -88,6 +92,37 @@ class Eq_mouvement extends CI_Controller
             $this->session->set_flashdata(['mouvement_not_added'=>true]);
         }
 
+        if($this->input->post('view_eq_mv') != null)
+        {
+            redirect('eq_mouvement/view_eq_mouvement?eq_id='.$equipment_id);
+        }
         redirect('eq_mouvement/index');
+    }
+
+    public function view_eq_mouvement()
+    {
+        /**
+         * TYPES DE MOUVEMENTS
+         * entre : approvisionnement
+         * sortie: Sortie
+        */
+
+        $eq_id = $this->input->get('eq_id');
+
+        $mouvement_entre = $this->Crud->join_mouvement_equipment($eq_id,'entre');
+        $mouvement_sortie = $this->Crud->join_mouvement_equipment($eq_id,'sortie');
+
+        $equipment = $this->Crud->get_data('equipment',['id'=>$eq_id])[0];
+
+        $d = [
+            'eq_id' => $eq_id,
+            'equipment' => $equipment,
+            'mouvement_entre' => $mouvement_entre,
+            'mouvement_sortie' => $mouvement_sortie,
+        ];
+
+        $this->load->view('eq_mouvement/view_eq_mouvement',$d);
+        $this->load->view('layout/footer');
+        $this->load->view('layout/js');
     }
 }
