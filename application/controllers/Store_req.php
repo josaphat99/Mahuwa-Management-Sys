@@ -49,50 +49,22 @@ class Store_req extends CI_Controller
         $this->load->view('layout/js');
     }
 
-    public function new_eq_mouvement()
+
+    public function new_req()
     {
-        $type_operation = $this->input->post('type');
-        $equipment_id = $this->input->post('equipment_id');
-        $quantity = $this->input->post('quantity');
-
-        $add_mouvement = false;
-
         $d = [
-            'date' => $this->input->post('date'),
-            'equipment_id' =>  $equipment_id,
-            'type' => $type_operation,
-            'quantity' => $quantity,            
+            'equipment_id' => $this->input->post('equipment_id'),
+            'quantity' => $this->input->post('quantity'),
+            'reason' => $this->input->post('reason'),
+            'department_id' => $this->input->post('department_id'),
+            'date' => date('d-m-Y',time()),
+            'status' => 0
         ];
 
-        $eq = $this->Crud->get_data('equipment',['id'=>$equipment_id])[0];
-
+        $this->Crud->add_data('store_requisition',$d);
         
-        if($type_operation == 'sortie')
-        {
-            $solde = $eq->quantity - $quantity;
+        $this->session->set_flashdata(['store_req_added'=>true]);
 
-            if($solde >= 0)
-            {
-                $add_mouvement = true;
-
-                $this->Crud->update_data('equipment',['id'=>$equipment_id],['quantity'=>$solde]);
-            }
-        }else{
-            $add_mouvement = true;
-
-            $new_quantity = $eq->quantity + $quantity;
-            
-            $this->Crud->update_data('equipment',['id'=>$equipment_id],['quantity'=>$new_quantity]);
-        }
-
-        if($add_mouvement)
-        {
-            $this->Crud->add_data('mouvement_equipment',$d);
-            $this->session->set_flashdata(['mouvement_added'=>true]);
-        }else{
-            $this->session->set_flashdata(['mouvement_not_added'=>true]);
-        }
-
-        redirect('eq_mouvement/index');
+        redirect('department/index');
     }
 }

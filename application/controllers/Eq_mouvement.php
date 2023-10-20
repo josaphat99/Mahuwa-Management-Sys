@@ -55,6 +55,8 @@ class Eq_mouvement extends CI_Controller
         $quantity = $this->input->post('quantity');
 
         $add_mouvement = false;
+        $insuffisant_stock = false;
+        $beyond_max = false;
 
         $d = [
             'date' => date("d-m-Y",time()),
@@ -65,7 +67,8 @@ class Eq_mouvement extends CI_Controller
 
         $eq = $this->Crud->get_data('equipment',['id'=>$equipment_id])[0];
 
-        
+        //Verifier le type de mouvement et gerer les quantites
+
         if($type_operation == 'sortie')
         {
             $solde = $eq->quantity - $quantity;
@@ -75,13 +78,20 @@ class Eq_mouvement extends CI_Controller
                 $add_mouvement = true;
 
                 $this->Crud->update_data('equipment',['id'=>$equipment_id],['quantity'=>$solde]);
+            }else{
+                $insuffisant_stock = true;
             }
         }else{
-            $add_mouvement = true;
 
             $new_quantity = $eq->quantity + $quantity;
-            
-            $this->Crud->update_data('equipment',['id'=>$equipment_id],['quantity'=>$new_quantity]);
+
+            if($new_quantity <= $eq->maximum_stock)
+            {
+                $add_mouvement = true;
+                $this->Crud->update_data('equipment',['id'=>$equipment_id],['quantity'=>$new_quantity]);
+            }else{
+                $beyond_max = true;
+            }
         }
 
         if($add_mouvement)
@@ -89,7 +99,14 @@ class Eq_mouvement extends CI_Controller
             $this->Crud->add_data('mouvement_equipment',$d);
             $this->session->set_flashdata(['mouvement_added'=>true]);
         }else{
-            $this->session->set_flashdata(['mouvement_not_added'=>true]);
+            if($insuffisant_stock){
+                $this->session->set_flashdata(['insuffisant_stock'=>true]);
+            }
+
+            if($beyond_max)
+            {
+                $this->session->set_flashdata(['beyond_max'=>true]);
+            }
         }
 
         if($this->input->post('view_eq_mv') != null)

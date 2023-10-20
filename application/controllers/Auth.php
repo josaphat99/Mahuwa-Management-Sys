@@ -35,11 +35,11 @@ class Auth extends CI_Controller
             $this->load->view('layout/footer');
             $this->load->view('layout/js');
         }else{
-            $username = $this->input->post('username');
+            $email = $this->input->post('email');
             $pwd = $this->input->post('password');
 
-            $res = $this->Crud->get_data('account',['username'=>$username,'password'=>$pwd]);
-
+            $res = $this->Crud->get_data('account',['email'=>$email,'password'=>$pwd]);
+            
             $user = $this->Crud->get_data('user',['id'=>$res[0]->user_id])[0];
 
             if(count($res) > 0)
@@ -73,6 +73,10 @@ class Auth extends CI_Controller
                 {
                     redirect('encoder/index'); 
                 }
+                else if(trim($type) == trim("do"))
+                {
+                    redirect('department/index'); 
+                }
                 else if(trim($type) == trim("dg"))
                 {
                     redirect('pch_order/index'); 
@@ -82,12 +86,12 @@ class Auth extends CI_Controller
                     redirect('hr/index'); 
                 }
                 else{				
-                    $login_error = array("error_login" => "Le nom d'utilisateur ou mot de passe est incorrecte!!");
+                    $login_error = array("error_login" => "L'adresse email le ou mot de passe est incorrecte!!");
                     $this->session->set_flashdata($login_error);
                     redirect('auth/login'); 
                 }
             }else{
-                $login_error = array("error_login" => "Le nom d'utilisateur ou mot de passe est incorrecte!!");
+                $login_error = array("error_login" => "L'adresse email le ou mot de passe est incorrecte!!");
                 $this->session->set_flashdata($login_error);
                 redirect('auth/login');
             }

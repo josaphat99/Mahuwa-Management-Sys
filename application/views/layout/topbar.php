@@ -39,6 +39,27 @@
                                 ?>
                                         Bons des commandes
                                 <?php
+                                    }else if($this->session->type == 'do'){
+
+                                        $notif = $store_req_attente;
+                                        $href = '#';
+                                ?>
+                                        Requisitions de stock en attente
+                                <?php
+                                    }else if($this->session->type == 'finance'){
+
+                                        $notif = $valid_pch_order;
+                                        $href = '#';
+                                ?>
+                                        Bons de commande validé
+                                <?php
+                                    }else if($this->session->type == 'admin'){
+
+                                        $notif = $pending_pch_order;
+                                        $href = 'pch_order/index';
+                                ?>
+                                        Bons de commande en attente
+                                <?php
                                     }
                                 ?>
                             </div>

@@ -13,7 +13,7 @@
 <?php
     $this->session->mouvement_added = null;
     }
-    if(($this->session->mouvement_not_added))
+    if(($this->session->insuffisant_stock))
     {
 ?>
         <script>
@@ -25,7 +25,22 @@
             })
         </script>
 <?php
-    $this->session->mouvement_not_added = null;
+    $this->session->insuffisant_stock= null;
+    }
+
+    if(($this->session->beyond_max))
+    {
+?>
+        <script>
+            Swal.fire({            
+            icon: 'warning',
+            title: 'Vous ne pouvez pas depasser la quantité max predefinie!',
+            showConfirmButton: false,
+            timer: 3000
+            })
+        </script>
+<?php
+    $this->session->beyond_max= null;
     }
 ?>
 
@@ -163,7 +178,7 @@
         </div>
     </section>
 
-    <!-- Modal form for a new equipment-->
+    <!-- Modal form for a new mouvement-->
     <div class="modal fade" id="newEqForm" tabindex="-1" role="dialog" aria-labelledby="formModal"
         aria-hidden="true">
         <div class="modal-dialog" role="document">

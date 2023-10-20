@@ -62,7 +62,7 @@
 
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
-                        <div class="card-icon l-bg-red">
+                        <div class="card-icon l-bg-green">
                         <i class="fas fa-book-open"></i>
                         </div>
                         <div class="card-wrap">
@@ -84,8 +84,8 @@
             <div class="row">
               <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Equipements Capex</h4>
+                    <div class="card-header bg-blue">
+                        <h4 class="text-white">Equipements Capex</h4>
                         <div class="card-header-action">
                             <a data-collapse="#capex-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>
@@ -93,26 +93,47 @@
                     </div>
                     <div class="collapse show" id="capex-collapse">
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive table-bordered">
                                 <table class="table table-striped">
-                                    <tr>
-                                    <th>Code</th>
-                                    <th>Designation</th>
-                                    <th>Quantité</th>
-                                    <th>Categorie</th>
-                                    <th>Action</th>
+                                    <tr class="text-center">
+                                        <th>Code</th>
+                                        <th>Designation</th>
+                                        <th>Marque du produit</th>
+                                        <th>Type</th>
+                                        <th>Unité de mesure</th>
+                                        <th>Prix Unitaire</th>
+                                        <th>Quantité</th>                                        
+                                        <th>Stock Maximum</th>                                
+                                        <th>Stock Minimum</th> 
+                                        <th>Action</th>
                                     </tr>
                                     <tbody>                 
                                         
                                         <?php
+                                            $qte_style = '';
+                                            $qte_class = '';
                                             foreach($capex_eq as $c)
                                             {
+                                                if($c->quantity < $c->minimum_stock)
+                                                {
+                                                    $qte_class = "bg-danger text-white";
+                                                    $qte_style = "border:solid 1px red";                                                
+                                                }else{
+                                                    $qte_class = "bg-success text-white";
+                                                    $qte_style = "border:solid 1px lightgreen";
+                                                }
                                         ?>  
-                                        <tr>
+                                        <tr class="text-center">
                                             <td><?=$c->code?></td>
                                             <td><?=$c->designation?></td>
-                                            <td><?=$c->quantity?></td>
-                                            <td><?=ucfirst($c->category)?></td>
+                                            <td><?=$c->product_brand?></td>
+                                            <td><?=$c->type?></td>
+                                            <td><?=$c->unit_of_measure?></td>
+                                            <td>$<?=$c->cost_per_unit?></td>
+                                            <td style="<?=$qte_style?>" class="<?=$qte_class?>"><?=$c->quantity?></td>
+                                            <td><?=$c->maximum_stock?></td>
+                                            <td><?=$c->minimum_stock?></td>
+                                            <!-- <td><ucfirst($c->category)?></td> -->
                                             <td>
                                                 <a href="#" class="btn btn-success btn-action mr-1 view_btn"  title="View" id=<?="view_btn-".$c->id?> 
                                                 data-toggle="modal" data-target="#exampleModalCenter" designation="<?=$c->designation?>">
@@ -136,8 +157,8 @@
             <div class="row">
               <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Equipements Opex</h4>
+                    <div class="card-header bg-blue">
+                        <h4 class="text-white">Equipements Opex</h4>
                         <div class="card-header-action">
                             <a data-collapse="#opex-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>
@@ -145,25 +166,46 @@
                     </div>
                     <div class="collapse show" id="opex-collapse">
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive table-bordered">
                                 <table class="table table-striped">
-                                    <tr>
-                                    <th>Code</th>
-                                    <th>Designation</th>
-                                    <th>Quantité</th>
-                                    <th>Action</th>
+                                    <tr class="text-center">
+                                        <th>Code</th>
+                                        <th>Designation</th>
+                                        <th>Marque du produit</th>
+                                        <th>Type</th>
+                                        <th>Unité de mesure</th>
+                                        <th>Prix Unitaire</th>
+                                        <th>Quantité</th>                                        
+                                        <th>Stock Maximum</th>                                
+                                        <th>Stock Minimum</th> 
+                                        <th>Action</th>
                                     </tr>
                                     <tbody>                 
                                         
                                         <?php
+                                         $qte_style = '';
+                                         $qte_class = '';
                                             foreach($opex_eq as $o)
                                             {
+                                                if($c->quantity < $c->minimum_stock)
+                                                {
+                                                    $qte_class = "bg-danger text-white";
+                                                    $qte_style = "border:solid 1px red";                                                
+                                                }else{
+                                                    $qte_class = "bg-success text-white";
+                                                    $qte_style = "border:solid 1px lightgreen";
+                                                }
                                         ?>  
-                                        <tr>
+                                        <tr class="text-center">
                                             <td><?=$o->code?></td>
                                             <td><?=$o->designation?></td>
-                                            <td><?=$o->quantity?></td>
-                                            <td><?=ucfirst($o->category)?></td>
+                                            <td><?=$o->product_brand?></td>
+                                            <td><?=$o->type?></td>
+                                            <td><?=$o->unit_of_measure?></td>
+                                            <td>$<?=$o->cost_per_unit?></td>
+                                            <td style="<?=$qte_style?>" class="<?=$qte_class?>"><?=$o->quantity?></td>
+                                            <td><?=$o->maximum_stock?></td>
+                                            <td><?=$o->minimum_stock?></td>
                                             <td>
                                                 <a href="#" class="btn btn-success btn-action mr-1 view_btn"  title="View" id=<?="view_btn-".$o->id?> 
                                                 data-toggle="modal" data-target="#exampleModalCenter" designation="<?=$o->designation?>">
@@ -187,8 +229,8 @@
             <div class="row">
               <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Requisitions de stock en attente</h4>
+                    <div class="card-header bg-blue">
+                        <h4 class="text-white">Requisitions de stock en attente</h4>
                         <div class="card-header-action">
                             <a data-collapse="#req-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>

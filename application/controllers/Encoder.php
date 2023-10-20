@@ -52,6 +52,10 @@ class Encoder extends CI_Controller
 
         //$pending_store_requisition = $this->Crud->join_reading_book_account(0);
 
+        //calcul de la quantite
+        $this->calcul_qte($capex_eq);
+        $this->calcul_qte($opex_eq);
+       
         $d = [
             'capex_eq' => $capex_eq,
             'all_capex_eq' => $all_capex_eq,
@@ -74,6 +78,9 @@ class Encoder extends CI_Controller
         {
             $eq_capex = $this->Crud->join_equipment_category('capex');
             $category = $this->Crud->get_data('category_equipment');
+
+            //calcul de la quantite
+            $this->calcul_qte($eq_capex);
 
             $d = [
                 'eq_capex' => $eq_capex,
@@ -128,6 +135,9 @@ class Encoder extends CI_Controller
         $eq_opex = $this->Crud->join_equipment_category('opex');
         $category = $this->Crud->get_data('category_equipment');
 
+         //calcul de la quantite
+         $this->calcul_qte($eq_opex);
+
         $d = [
             'eq_opex' => $eq_opex,
             'category' => $category
@@ -144,11 +154,17 @@ class Encoder extends CI_Controller
         $eq_opex = $this->Crud->join_equipment_category('opex');
         $eq_capex = $this->Crud->join_equipment_category('capex');
         $category = $this->Crud->get_data('category_equipment');
+        $type = $this->Crud->get_data('type');
+
+        //calcul de la quantite
+        $this->calcul_qte($eq_capex);
+        $this->calcul_qte($eq_opex);
 
         $d = [
             'eq_opex' => $eq_opex,
             'eq_capex' => $eq_capex,
-            'category' => $category
+            'category' => $category,
+            'type' => $type
         ];
 
         $this->load->view('encoder/all_eq',$d);
@@ -169,14 +185,25 @@ class Encoder extends CI_Controller
             //upload files
             if(move_uploaded_file($_FILES['image']['tmp_name'], './assets/files/equipments/'.$image))
             {
-                $code = 'eq-'.rand(10,5102);
+                $last_eq_code = $this->Crud->get_data_desc('equipment')[0]->code;
+                $last_char = substr($last_eq_code, -1);
+                $increased_char = $last_char + 1;
+
+                $code = 'WVTV07.2023/00'.$increased_char;
 
                 $d = [
                     'designation' => $this->input->post('designation'),
-                    'quantity' => $this->input->post('quantity'),
+                    // 'quantity' => $this->input->post('quantity'),
                     'category_id' => $this->input->post('category_id'),
+                    'type_id' => $this->input->post('type_id'),
+                    'product_brand' => $this->input->post('product_brand'),
+                    'cost_per_unit' => $this->input->post('cost_per_unit'),
+                    'minimum_stock' => $this->input->post('minimum_stock'),
+                    'maximum_stock' => $this->input->post('maximum_stock'),
+                    'unit_of_measure' => $this->input->post('unit_of_measure'),
+                    'num_serie' => $this->input->post('num_serie'),
                     'image' => $image,
-                    'code' => $code,                        
+                    'code' => $code,                                        
                 ];
 
                 $this->Crud->add_data('equipment',$d);       
@@ -194,5 +221,39 @@ class Encoder extends CI_Controller
         $page = $this->input->post('type');
 
         redirect('encoder/'.$page);
+    }
+
+    //private function for internal process
+    private function calcul_qte($object_list)
+    {
+         //calcul de la quantité des equipements
+         foreach($object_list as $c)
+         {
+            $mve = $this->Crud->get_data('mouvement_equipment',['equipment_id'=>$c->id,'type'=>'entre']);
+            $mvs = $this->Crud->get_data('mouvement_equipment',['equipment_id'=>$c->id,'type'=>'sortie']);
+
+            $qte_entre = 0;
+            $qte_sortie = 0;
+
+            foreach($mve as $me)
+            {
+                $qte_entre += $me->quantity;
+            }
+
+            foreach($mvs as $ms)
+            {
+                $qte_sortie += $ms->quantity;
+            }
+
+            $solde = $qte_entre - $qte_sortie;
+
+            if($solde != $c->quantity)
+            {
+                $c->quantity = $solde;
+            }else{
+                continue;
+            }
+         }
+ 
     }
 }

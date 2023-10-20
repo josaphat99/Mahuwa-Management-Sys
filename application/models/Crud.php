@@ -48,7 +48,6 @@ class Crud extends CI_Model
     }
 
 	//join account and student
-
 	public function join_account_student($option_id)
 	{
 		$this->db->select("*, account.id as id, student.id as id_student")
@@ -62,7 +61,6 @@ class Crud extends CI_Model
 
 	
 	//join equipment, category
-
 	public function join_equipment_category($category=null,$limit=null)
 	{
 		$where = null;
@@ -70,6 +68,7 @@ class Crud extends CI_Model
 		
 		$this->db->select("*, equipment.id as id, category_equipment.id as id_category")
 				 ->from('equipment')
+				 ->join('type','equipment.type_id = type.id')
 				 ->join('category_equipment','equipment.category_id = category_equipment.id')
 				 ->order_by('equipment.id','DESC')
 				 ->limit($limit);
@@ -83,7 +82,6 @@ class Crud extends CI_Model
 	}
 
 	//join store requisition, equipment, department
-
 	public function join_storereq_ep_dept($department_id=null,$req_status=null,$limit=null)
 	{		
 		$this->db->select("*, store_requisition.id as id, store_requisition.quantity as st_quantity, equipment.id as id_equipment,equipment.quantity as eq_quantity, department.id as id_department")
@@ -106,7 +104,6 @@ class Crud extends CI_Model
 	}
 
 	//join mouvement, equipment
-
 	public function join_mouvement_equipment($equipment_id=null,$type=null,$limit=null)
 	{
 		$where = null;
@@ -130,6 +127,7 @@ class Crud extends CI_Model
 		return $this->db->get()->result();
 	}
 
+	//join purchase, store req, equipment
 	public function join_pch_st_eq($eq_id=null,$department_id=null,$limit=null,$status=null)
 	{
 		$this->db->select("*, purchase_order.id as id,purchase_order.date as date,purchase_order.status as status, store_requisition.status as st_status, store_requisition.date as st_date,store_requisition.id as st_id, equipment.id as id_equipment")
@@ -156,6 +154,24 @@ class Crud extends CI_Model
 			$this->db->where(['purchase_order.status'=>$status]);
 		}
 		
+		return $this->db->get()->result();
+	}
+
+	//join budget, department
+	public function join_budget_dept($department_id=null,$limit=null)
+	{
+		$this->db->select("*, budget.id as id,department.id as id_department")
+				 ->from('budget')
+				 ->join('department','budget.department_id = department.id')
+				 ->join('curency','budget.curency_id = curency.id')
+				 ->order_by('budget.id','DESC')
+				 ->limit($limit);
+
+		if($department_id != null)
+		{
+			$this->db->where(['department.id'=>$department_id]);
+		}
+				
 		return $this->db->get()->result();
 	}
 }  

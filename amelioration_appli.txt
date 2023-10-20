@@ -6,3 +6,15 @@ to do today
 - Finir les features du dg
 
 - L'interface du financier
+
+==================================
+
+Amelioration
+--------------
+
+- Ajouter un champ #Marque# pour les equipment
+
+- Pour la sortie des equipement
+
+	* On doit savoir quel departement l'utilise
+	*Etre capable de voir combien d'equipement un departement utilise

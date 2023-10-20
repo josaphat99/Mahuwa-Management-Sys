@@ -57,8 +57,8 @@
             <div class="row">
               <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Bons des commandes en attente</h4>
+                    <div class="card-header bg-blue">
+                        <h4 class="text-white">Bons des commandes en attente</h4>
                         <div class="card-header-action">
                             <a data-collapse="#pch-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="collapse show" id="pch-collapse">
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive table-bordered">
                                 <table class="table table-striped">
                                     <tr class="text-center">
                                         <th>Date</th>
@@ -118,8 +118,8 @@
             <div class="row">
               <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Bons des commandes validés</h4>
+                    <div class="card-header bg-blue">
+                        <h4 class="text-white">Bons des commandes validés</h4>
                         <div class="card-header-action">
                             <a data-collapse="#v_pch-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>
@@ -127,7 +127,7 @@
                     </div>
                     <div class="collapse show" id="v_pch-collapse">
                         <div class="card-body">
-                            <div class="table-responsive">
+                            <div class="table-responsive table-bordered">
                                 <table class="table table-striped">
                                     <tr class="text-center">
                                         <th>Date</th>

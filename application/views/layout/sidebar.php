@@ -16,9 +16,26 @@
                         &nbsp;&nbsp;<i data-feather="monitor"></i><span>Dashboard</span>
                         </a>
                     </li>
+                    
                     <li class="dropdown">
-                        <a href="<?=site_url('admin/view_grade')?>" class="nav-link">
-                            <i class="fas fa-graduation-cap"></i><span>Grades</span>
+                        <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Equipements</span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link" href="<?=site_url('encoder/all_eq')?>">Tous les equipements</a></li>
+                            <li><a class="nav-link" href="<?=site_url('encoder/eq_capex')?>">Equipements Capex</a></li>
+                            <li><a class="nav-link" href="<?=site_url('encoder/eq_opex')?>">Equipements Opex</a></li>
+                            <li><a class="nav-link" href="<?=site_url('eq_mouvement/index')?>">Mouvements de stock</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="<?=site_url('pch_order/index')?>" class="nav-link">
+                        <i data-feather="command"></i><span>Bons de commandes</span>
+                        </a>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="<?=site_url('admin/view_users')?>" class="nav-link">
+                        &nbsp;&nbsp;<i data-feather="user"></i><span>Utilisateurs</span>
                         </a>
                     </li>
             <?php
@@ -52,11 +69,11 @@
                 }elseif($this->session->type == 'dg')
                 {
             ?>
-                    <li class="dropdown">
+                    <!-- <li class="dropdown">
                         <a href="<?=site_url('dg/index')?>" class="nav-link">
                         &nbsp;&nbsp;<i data-feather="monitor"></i><span>Dashboard</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     <li class="dropdown">
                         <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="command"></i><span>Equipements</span></a>
@@ -70,6 +87,21 @@
 
                     <li class="dropdown active">
                         <a href="<?=site_url('pch_order/index')?>" class="nav-link">
+                            <i data-feather="command"></i><span>Bons de commandes</span>
+                        </a>
+                    </li>
+            <?php
+                }elseif($this->session->type == 'finance')
+                {
+            ?>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link">
+                        &nbsp;&nbsp;<i data-feather="monitor"></i><span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="dropdown active">
+                        <a href="<?=site_url('finance/index')?>" class="nav-link">
                             <i data-feather="command"></i><span>Bons de commandes</span>
                         </a>
                     </li>

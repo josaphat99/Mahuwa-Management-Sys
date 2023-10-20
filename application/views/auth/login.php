@@ -18,10 +18,10 @@
               <div class="card-body">
                 <form method="POST" action="<?=site_url('auth/login')?>" class="needs-validation" novalidate="">
                   <div class="form-group">
-                    <label for="email">Nom d'utilisateur</label>
-                    <input id="email" type="text" class="form-control" name="username" tabindex="1" required autofocus>
+                    <label for="email">Adresse email</label>
+                    <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
                     <div class="invalid-feedback">
-                      Veuillez fournir votre nom d'utilisateur!
+                      Veuillez fournir une adresse mail correcte!
                     </div>
                   </div>
                   <div class="form-group">

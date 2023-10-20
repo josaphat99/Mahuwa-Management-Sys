@@ -19,13 +19,13 @@
 <div class="main-content">
     <section class="section">
         <div class="section-body">
-            <!-- capex eqp table -->
+            <!-- opex eqp table -->
             <div class="row">
               <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Equipements Opex</h4>
-                        <?php
+                    <div class="card-header bg-blue">
+                        <h4 class="text-white">Equipements Opex</h4>
+                        <!-- <php
                         if($this->session->type == 'encoder')
                         {
                     ?>                    
@@ -33,9 +33,9 @@
                             <button class="btn btn-success" style="padding:5px 10px 5px 10px"><i
                             class="fas fa-plus"></i>&nbsp;&nbsp;Nouvel Equipement</button>
                         </div>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <?php
+                    <php
                         }
-                    ?>
+                    ?> -->
                         <div class="card-header-action">
                             <a data-collapse="#opex-collapse" class="btn btn-icon btn-info" href="#"><i
                             class="fas fa-minus"></i></a>
@@ -43,39 +43,59 @@
                     </div>
                     <div class="collapse show" id="opex-collapse">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <tr>
+                        <div class="table-responsive table-bordered">
+                            <table class="table table-striped">
+                                <tr class="text-center">
                                     <th>Code</th>
                                     <th>Designation</th>
+                                    <th>Marque du produit</th>
+                                    <th>Type</th>
+                                    <th>Unité de mesure</th>
+                                    <th>Prix Unitaire</th>
                                     <th>Quantité</th>
-                                    <th>Categorie</th>
+                                    <th>Stock Maximum</th> 
+                                    <th>Stock Minimum</th> 
                                     <th>Action</th>
-                                    </tr>
-                                    <tbody>                 
-                                        
-                                        <?php
-                                            foreach($eq_opex as $c)
+                                </tr>
+                                <tbody>                 
+                                    
+                                    <?php
+                                        $qte_style = '';
+                                        $qte_class = '';
+                                        foreach($eq_opex as $c)
+                                        {
+                                            if($c->quantity < $c->minimum_stock)
                                             {
-                                        ?>  
-                                        <tr>
-                                            <td><?=$c->code?></td>
-                                            <td><?=$c->designation?></td>
-                                            <td><?=$c->quantity?></td>
-                                            <td><?=ucfirst($c->category)?></td>
-                                            <td>
-                                                <a href="#" class="btn btn-success btn-action mr-1 view_btn"  title="View" id=<?="view_btn-".$c->id?> 
-                                                data-toggle="modal" data-target="#exampleModalCenter" designation="<?=$c->designation?>">
-                                                    <i class="fas fa-eye view_btn" id=<?="view_icon-".$c->id?> designation="<?=$c->designation?>"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                        }
-                                        ?>                                    
-                                    </tbody>
-                                </table>
-                            </div>
+                                                $qte_class = "bg-danger text-white";
+                                                $qte_style = "border:solid 1px red";                                                
+                                            }else{
+                                                $qte_class = "bg-success text-white";
+                                                $qte_style = "border:solid 1px lightgreen";
+                                            }
+                                    ?>  
+                                    <tr class="text-center">
+                                        <td><?=$c->code?></td>
+                                        <td><?=$c->designation?></td>
+                                        <td><?=$c->product_brand?></td>
+                                        <td><?=$c->type?></td>
+                                        <td><?=$c->unit_of_measure?></td>
+                                        <td>$<?=$c->cost_per_unit?></td>
+                                        <td style="<?=$qte_style?>" class="<?=$qte_class?>"><?=$c->quantity?></td>
+                                        <td><?=$c->maximum_stock?></td>
+                                        <td><?=$c->minimum_stock?></td>
+                                        <td>
+                                            <a href="#" class="btn btn-success btn-action mr-1 view_btn"  title="View" id=<?="view_btn-".$c->id?> 
+                                            data-toggle="modal" data-target="#exampleModalCenter" designation="<?=$c->designation?>">
+                                                <i class="fas fa-eye view_btn" id=<?="view_icon-".$c->id?> designation="<?=$c->designation?>"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    }
+                                    ?>                                    
+                                </tbody>
+                            </table>
+                        </div>
                         </div>
                     </div>
                 </div>
